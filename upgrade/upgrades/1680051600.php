@@ -9,11 +9,16 @@
  * @link      https://www.opensource-socialnetwork.org/
  */
 ossn_generate_server_config('apache');
-ossn_version_upgrade($upgrade, '5.6');
+ossn_version_upgrade($upgrade, '7.0');
+
+$Site = new OssnSite();
+$Site->setSetting('notification_name', ossn_site_settings('site_name'));
+$Site->setSetting('copyrights', ossn_site_settings('site_name'));
+
 $factory = new OssnFactory(array(
 		'callback' => 'installation',
-		'website' => ossn_site_url(),
-		'email' => ossn_site_settings('owner_email'),
-		'version' => '5.6'
+		'website'  => ossn_site_url(),
+		'email'    => ossn_site_settings('owner_email'),
+		'version'  => '7.0',
 ));
 $factory->connect;
