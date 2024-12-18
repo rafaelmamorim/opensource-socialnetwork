@@ -154,6 +154,7 @@ p {
 	font-size: 15px;
 	font-weight: bold;
 	margin-left: 10px;
+    cursor:pointer;
 }
 
 .ossn-checkbox-input {
@@ -938,6 +939,8 @@ a {
 
 [contentEditable=true]:empty:not(:focus)::before {
 	content: attr(placeholder);
+    pointer-events: none;
+    display: block;    
 }
 
 
@@ -2006,7 +2009,6 @@ li.token-input-selected-token {
 }
 
 li.token-input-input-token {
-	float: left;
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
@@ -2074,6 +2076,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 
 .ossn-system-messages .ossn-system-messages-inner .alert {
 	margin-bottom: 0px;
+    z-index:-1;
 }
 
 
@@ -2099,16 +2102,13 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 	width: 100%;
 	z-index: 10000;
 	background-color: #000;
-	opacity: 0.9;
+    opacity: 0.4;
 	cursor: auto;
 	height: 100%;
 	display: none;
 }
 
-.ossn-light {
-	opacity: 0.4 !important;
-}
-
+.ossn-light {}
 .ossn-viewer {
 	width: 940px;
 	margin: 0 auto;
@@ -2140,20 +2140,6 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 .ossn-container tbody {
 	background: #000;
 }
-
-.ossn-halt {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 10000;
-	background-color: #000;
-	opacity: 0.9;
-	cursor: auto;
-	height: 100%;
-	display: none;
-}
-
 .ossn-viewer .info-block {
 	background: #fff;
 	height: 100%;
@@ -2295,9 +2281,16 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 	font-weight: bold;
 }
 .checkbox-block span {
-	margin-top:5px;
+	margin-top:6px;
 }
-
+.checkbox-block-container {
+	margin-bottom: 20px;
+}
+#ossn-home-signup .checkbox-block,
+.ossn-profile-bottom .ossn-edit-form .checkbox-block {
+	margin-top: 0;
+	margin-bottom: 0;
+}
 /*******************************
 	Ossn Blocked
 *********************************/
@@ -2600,25 +2593,23 @@ footer .ossn-footer-menu a:last-child::after {
 	width: 435px;
 }
 
-.home-left-contents .some-icons i {
-	font-size: 45px;
+.landing-page-icons {
+     color: #fff;
+     text-align: center;
+     margin-top: 30px;
 }
-
-.home-left-contents .some-icons li {
-	display: inline-block;
-	color: #fff;
-	border: 3px solid #fff;
-	border-radius: 100%;
-	padding: 20px;
-	margin-right: 20px;
-	margin-bottom: 20px;
-	width: 90px;
-	height: 90px;
+.landing-page-icons-span {
+     border: 3px solid;
+     border-radius: 50px;
+     display: inline-block;
+     width: 90px;
+     text-align: center;
+     padding-top: 20px;
+     padding-bottom: 20px;
+     margin: 10px;
 }
-
-.home-left-contents .some-icons {
-	margin-top: 10%;
-	text-align: center;
+.landing-page-icons-span .fa {
+     margin-right: 0px;
 }
 
 
@@ -2930,7 +2921,7 @@ footer .ossn-footer-menu a:last-child::after {
 		display: none;
 	}
 
-	.home-left-contents .some-icons {
+	.home-left-contents .landing-page-icons {
 		display: none;
 	}
 

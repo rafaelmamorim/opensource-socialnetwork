@@ -26,3 +26,6 @@ The following developers contributed to this project:
 * Rafael Amorim https://github.com/rafaelmamorim
 * Caleb Mazalevskis https://github.com/Maikuolan
 * ToffyMTA https://github.com/ToffyMTA
+* Aroshana Dissanayake https://github.com/Aroshana1
+* Ahmadreza Bashari https://github.com/ahmadreza1383 (Persian Language) 
+

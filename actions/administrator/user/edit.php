@@ -55,13 +55,9 @@ if(!in_array($vars['type'], $types)) {
 		redirect(REF);
 }
 
-$user->first_name = $vars['firstname'];
-$user->last_name  = $vars['lastname'];
-$user->email      = $vars['email'];
-$user->new_type   = $vars['type'];
 
 //check if email is not in user
-if($entity->email !== input('email')) {
+if($user->email !== input('email')) {
 		$OssnUser        = new OssnUser();
 		$OssnUser->email = $vars['email'];
 
@@ -69,12 +65,18 @@ if($entity->email !== input('email')) {
 				ossn_trigger_message(ossn_print('email:inuse'), 'error');
 				redirect(REF);
 		}
+		//check if email is valid email
+		if(!$OssnUser->isEmail()) {
+				ossn_trigger_message(ossn_print('email:invalid'), 'error');
+				redirect(REF);
+		}
 }
-//check if email is valid email
-if(!$OssnUser->isEmail()) {
-		ossn_trigger_message(ossn_print('email:invalid'), 'error');
-		redirect(REF);
-}
+
+$user->first_name = $vars['firstname'];
+$user->last_name  = $vars['lastname'];
+$user->email      = $vars['email'];
+$user->new_type   = $vars['type'];
+
 //check if password then change password
 if(!empty($password)) {
 		$OssnUser           = new OssnUser();

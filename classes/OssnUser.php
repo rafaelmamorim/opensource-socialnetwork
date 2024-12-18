@@ -115,6 +115,19 @@ class OssnUser extends OssnEntities {
 																}
 														}
 												}
+												//[B] input of non_required extra fields in signup form is ignored #2355
+												if(!empty($extra_fields['non_required'])) {
+														foreach ($extra_fields['non_required'] as $type) {
+																foreach ($type as $field) {
+																		if(isset($this->{$field['name']})) {
+																				$this->subtype = $field['name'];
+																				$this->value   = $this->{$field['name']};
+																				//add entity
+																				$this->add();
+																		}
+																}
+														}
+												}
 												//v5.1 allow a specific password algorithm for each user
 												$this->subtype = 'password_algorithm';
 												$this->value   = $this->getPassAlog();
@@ -1030,22 +1043,6 @@ class OssnUser extends OssnEntities {
 				if(!empty($this->guid) && isset($this->cover_guid) && !empty($this->cover_guid)) {
 						return ossn_get_file($this->cover_guid);
 				}
-				if(!empty($this->guid)) {
-						$this->owner_guid = $this->guid;
-						$this->type       = 'user';
-						$this->subtype    = 'file:profile:cover';
-						$this->limit      = 1;
-						$this->order_by   = 'guid DESC';
-						$entity           = $this->get_entities();
-						if(isset($entity[0])) {
-								//save the cover_guid and move to new procedure #1647
-								$user                   = ossn_user_by_guid($this->guid);
-								$user->data->cover_guid = $entity[0]->guid;
-								$user->save();
-
-								return $entity[0];
-						}
-				}
 				return false;
 		}
 		/**
@@ -1072,7 +1069,8 @@ class OssnUser extends OssnEntities {
 				$timestamp_last_year = mktime(0, 0, 0, 1, 1, $last_year);
 
 				$current_year           = date('Y');
-				$timestamp_current_year = mktime(0, 0, 0, 12, 1, $current_year);
+				//[B] New installation suddenly shows user empty graph (total by year) #2413
+				$timestamp_current_year = mktime(0, 0, 0, 12, 31, $current_year);
 
 				//[B] countByYears result in admin panel showing wrong years + limit query to 2 years #2320
 				$wheres[] = "time_created > 0 AND time_created >= {$timestamp_last_year} AND time_created <= {$timestamp_current_year}";
@@ -1276,7 +1274,8 @@ class OssnUser extends OssnEntities {
 						//check if owner is loggedin user guid , if so update session
 						$loggedin_user = ossn_loggedin_user();
 						if($loggedin_user && $loggedin_user->guid == $this->guid) {
-								$_SESSION['OSSN_USER'] = ossn_user_by_guid($this->guid);
+								$fresh_user = ossn_user_by_guid($this->guid);
+								OssnSession::assign('OSSN_USER', $fresh_user);
 						}
 						//callback when user is saved
 						//useful to find out when user is edited
